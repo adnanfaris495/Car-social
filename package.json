@@ -1,0 +1,48 @@
+{
+  "name": "wheels",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "setup-storage": "node scripts/setup-storage.js",
+    "fix-storage-rls": "node scripts/fix-storage-rls.js",
+    "verify-rls": "node scripts/verify-rls.js",
+    "verify-database-rls": "node scripts/verify-database-rls.js",
+    "fix-marketplace-rls": "node scripts/fix-marketplace-rls.js",
+    "fix-marketplace-schema": "node scripts/fix-marketplace-schema.js"
+  },
+  "dependencies": {
+    "@emailjs/browser": "^4.4.1",
+    "@radix-ui/react-dialog": "^1.1.14",
+    "@supabase/auth-helpers-nextjs": "^0.10.0",
+    "@supabase/auth-helpers-react": "^0.5.0",
+    "@supabase/ssr": "^0.6.1",
+    "@supabase/supabase-js": "^2.50.0",
+    "@tabler/icons-react": "^3.34.0",
+    "@tailwindcss/postcss": "^4.1.11",
+    "clsx": "^2.1.1",
+    "framer-motion": "^12.15.0",
+    "lucide-react": "^0.468.0",
+    "next": "14.2.30",
+    "react": "^18",
+    "react-dom": "^18",
+    "react-hot-toast": "^2.5.2",
+    "sonner": "^2.0.5",
+    "tailwind-merge": "^2.5.4",
+    "tailwindcss": "^3.4.17",
+    "zustand": "^5.0.6"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "autoprefixer": "^10.4.21",
+    "eslint": "^8",
+    "eslint-config-next": "14.2.30",
+    "postcss": "^8.5.6",
+    "typescript": "^5"
+  }
+}
