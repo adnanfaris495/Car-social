@@ -46,7 +46,7 @@ export default function OffersPanel({ listingId, sellerId }: OffersPanelProps) {
               <div>
                 <p className="font-medium text-white">${offer.amount}</p>
                 <p className="text-sm text-zinc-400">
-                  {formatDate(offer.created_at, true)}
+                  {formatDate(offer.created_at)}
                 </p>
               </div>
               {offer.status === 'pending' && (

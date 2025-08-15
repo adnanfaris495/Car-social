@@ -54,7 +54,7 @@ export default function ListingDetails({ id }: { id: string }) {
           {images.length > 0 ? (
             <>
               <Image
-                src={getImageUrl(currentImage, 'listing')}
+                src={getImageUrl('listing', currentImage)}
                 alt={listing.title}
                 fill
                 className="object-cover"
