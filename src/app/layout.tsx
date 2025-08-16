@@ -11,7 +11,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: 'Wheels - Car Social Media',
+  title: 'carsocial',
   description: 'A social media platform for car enthusiasts',
 };
 
