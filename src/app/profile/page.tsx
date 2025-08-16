@@ -333,22 +333,15 @@ export default function ProfilePage() {
             <div>
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-2xl font-bold text-foreground">My Cars</h2>
-                <Link
-                  href="/garage/new"
-                  className="button-primary"
-                >
-                  <IconPlus size={20} />
-                  Add Car
-                </Link>
               </div>
               
               {userCars.length === 0 ? (
                 <div className="content-card text-center py-12">
                   <IconUser size={48} className="text-muted mx-auto mb-4" />
                   <h3 className="text-xl font-semibold text-foreground mb-2">No cars yet</h3>
-                  <p className="text-muted mb-4">Start building your garage by adding your first car.</p>
-                  <Link href="/garage/new" className="button-primary">
-                    Add Your First Car
+                  <p className="text-muted mb-4">Visit the Garage to add your cars.</p>
+                  <Link href="/garage" className="button-primary">
+                    Go to Garage
                   </Link>
                 </div>
               ) : (
