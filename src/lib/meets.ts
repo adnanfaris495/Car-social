@@ -3,7 +3,7 @@ import { supabase } from './supabase'
 import { toast } from 'sonner'
 import { uploadImages, deleteImage } from './storage'
 
-export type MeetType = 'cars_and_coffee' | 'track_day' | 'car_show' | 'cruise' | 'other'
+export type MeetType = 'cars_and_coffee' | 'track_day' | 'show_and_shine' | 'cruise' | 'meetup'
 export type AttendanceStatus = 'going' | 'maybe' | 'not_going'
 
 export interface Meet {

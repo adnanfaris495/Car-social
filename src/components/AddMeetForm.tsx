@@ -75,10 +75,7 @@ export default function AddMeetForm({ onClose }: AddMeetFormProps) {
       return
     }
 
-    if (!imageFile) {
-      toast.error('Please add an image for your meet')
-      return
-    }
+    // Image is optional
 
     try {
       await createMeet({
@@ -88,7 +85,7 @@ export default function AddMeetForm({ onClose }: AddMeetFormProps) {
         location_lng: null,
         organizer_id: user.id,
         image_url: null // Will be populated by uploadImages
-      }, imageFile)
+      }, imageFile || undefined)
 
       onClose()
     } catch (error) {
