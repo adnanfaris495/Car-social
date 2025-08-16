@@ -30,10 +30,21 @@ export default function AddCarPage() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    
+    // Prevent double submission
+    if (isSubmitting) return;
+    
     setIsSubmitting(true);
     setError('');
 
     try {
+      // Get current user
+      const { data: { user } } = await supabase.auth.getUser();
+      
+      if (!user) {
+        throw new Error('User not authenticated');
+      }
+
       const formData = new FormData(e.currentTarget);
       const carData = {
         make: formData.get('make') as string,
@@ -41,6 +52,7 @@ export default function AddCarPage() {
         year: Number(formData.get('year')),
         image_url: formData.get('imageUrl') as string,
         mods: mods,
+        user_id: user.id,
       };
 
       const { error: supabaseError } = await supabase
@@ -49,11 +61,12 @@ export default function AddCarPage() {
 
       if (supabaseError) throw supabaseError;
 
-      router.refresh(); // Refresh the page to show new data
+      // Navigate to garage page
       router.push('/garage');
     } catch (err) {
       console.error('Error adding car:', err);
       setError('Failed to add car. Please try again.');
+    } finally {
       setIsSubmitting(false);
     }
   };

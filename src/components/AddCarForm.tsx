@@ -105,27 +105,7 @@ export default function AddCarForm({ onSubmit, onClose }: AddCarFormProps) {
 
       console.log('Submitting car data:', carData)
       
-      // First, try to insert directly into the database to verify RLS policies
-      const { data: insertedCar, error: insertError } = await supabase
-        .from('cars')
-        .insert([{
-          ...carData,
-          user_id: user.id,
-          created_at: new Date().toISOString()
-        }])
-        .select()
-        .single()
-
-      if (insertError) {
-        console.error('Database error:', insertError)
-        throw new Error(`Database error: ${insertError.message}`)
-      }
-
-      if (!insertedCar) {
-        throw new Error('No data returned from database')
-      }
-
-      console.log('Car added successfully:', insertedCar)
+      // Let the parent component handle the database insertion
       await onSubmit(carData)
       
       toast.success('Car added successfully!')
