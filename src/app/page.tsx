@@ -20,6 +20,7 @@ import {
   IconCalendar
 } from '@tabler/icons-react'
 import NearbySection from '@/components/NearbySection'
+import FollowButton from '@/components/FollowButton'
 import { FALLBACK_IMAGES } from '@/lib/utils'
 import { supabase } from '@/lib/supabase'
 import { getImageUrl } from '@/lib/utils'
@@ -689,9 +690,12 @@ export default function HomePage() {
                               <p className="font-medium text-foreground truncate">{user.username}</p>
                               <p className="text-xs text-muted">{user.follower_count} followers</p>
                             </div>
-                            <button className="text-accent-primary text-sm font-medium hover:opacity-80 transition-opacity">
-                              Follow
-                            </button>
+                            <FollowButton 
+                              userId={user.id}
+                              currentUserId={session?.user?.id || null}
+                              variant="ghost"
+                              size="sm"
+                            />
                           </div>
                         ));
                       })()}
@@ -757,9 +761,12 @@ export default function HomePage() {
                               <p className="font-medium text-foreground truncate">{user.username}</p>
                               <p className="text-xs text-muted">{user.follower_count} followers</p>
                             </div>
-                            <button className="text-accent-primary text-sm font-medium hover:opacity-80 transition-opacity">
-                              Follow
-                            </button>
+                            <FollowButton 
+                              userId={user.id}
+                              currentUserId={session?.user?.id || null}
+                              variant="ghost"
+                              size="sm"
+                            />
                           </div>
                         ));
                       })()}
