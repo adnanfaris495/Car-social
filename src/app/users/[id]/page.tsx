@@ -95,6 +95,7 @@ export default function UserProfilePage() {
             console.log('User not found in database')
             toast.error('User not found')
             setProfile(null)
+            setIsLoading(false)
             return
           }
           
