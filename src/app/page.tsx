@@ -84,6 +84,7 @@ interface FollowingCar {
   model: string
   year: number
   image_url: string
+  created_at: string
   user: {
     id: string
     username: string
@@ -383,7 +384,8 @@ export default function HomePage() {
                 model,
                 year,
                 image_url,
-                user_id
+                user_id,
+                created_at
               `)
               .in('user_id', followedUserIds)
               .order('created_at', { ascending: false })
@@ -402,7 +404,7 @@ export default function HomePage() {
               const userIds = followingCarsData.map(car => car.user_id)
               const { data: followingUsersData, error: followingUsersError } = await supabase
                 .from('users')
-                .select('id, username')
+                .select('id, username, avatar_url')
                 .in('id', userIds)
 
               if (followingUsersError) throw followingUsersError
@@ -576,7 +578,7 @@ export default function HomePage() {
                     </div>
                   ) : (
                     <div className="space-y-6">
-                      {recentCars
+                      {followingCars
                         .filter(car => car.user.id !== user?.id) // Filter out current user's cars
                         .map((car) => (
                         <article key={car.id} className="bg-card-background/50 backdrop-blur-sm rounded-xl border border-card-border overflow-hidden hover:shadow-lg transition-all duration-200">
