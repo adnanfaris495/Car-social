@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS public.meets (
   location_lat DECIMAL(10, 8),
   location_lng DECIMAL(11, 8),
   max_attendees INTEGER DEFAULT 0,
-  type TEXT NOT NULL CHECK (type IN ('cars_and_coffee', 'track_day', 'show_and_shine', 'cruise', 'meetup')),
+  type TEXT NOT NULL CHECK (type IN ('cars_and_coffee', 'track_day', 'car_show', 'cruise', 'other')),
   image_url TEXT,
   organizer_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc', now()),

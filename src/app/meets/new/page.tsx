@@ -210,9 +210,9 @@ export default function NewMeetPage() {
             <option value="">Select meet type</option>
             <option value="cars_and_coffee">Cars & Coffee</option>
             <option value="track_day">Track Day</option>
-            <option value="show_and_shine">Show & Shine</option>
+            <option value="car_show">Car Show</option>
             <option value="cruise">Cruise</option>
-            <option value="meetup">General Meetup</option>
+            <option value="other">Other</option>
           </select>
         </div>
 
