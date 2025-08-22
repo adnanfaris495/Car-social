@@ -9,6 +9,7 @@ interface ForumState {
   error: string | null
   createPost: (post: { title: string; content: string; brand: string; tags: string[] }) => Promise<void>
   createComment: (postId: string, content: string) => Promise<void>
+  deleteComment: (commentId: string, postId: string) => Promise<void>
   likePost: (postId: string) => Promise<void>
   unlikePost: (postId: string) => Promise<void>
   deletePost: (postId: string) => Promise<void>
@@ -86,6 +87,40 @@ export const useForums = create<ForumState>((set, get) => ({
       await get().fetchPosts()
     } catch (error) {
       set({ error: error instanceof Error ? error.message : 'Failed to create comment' })
+    }
+  },
+
+  deleteComment: async (commentId, postId) => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) throw new Error('User not authenticated')
+
+      const { error } = await supabase
+        .from('forum_comments')
+        .delete()
+        .eq('id', commentId)
+        .eq('author_id', user.id)
+
+      if (error) throw error
+
+      // Update reply count
+      const currentPost = get().posts.find(p => p.id === postId)
+      if (currentPost) {
+        await supabase
+          .from('forum_posts')
+          .update({ replies_count: Math.max(0, currentPost.replies_count - 1) })
+          .eq('id', postId)
+      }
+
+      // Remove comment from local state
+      set((state) => ({
+        comments: state.comments.filter((comment) => comment.id !== commentId),
+      }))
+
+      // Refresh posts to update reply count
+      await get().fetchPosts()
+    } catch (error) {
+      set({ error: error instanceof Error ? error.message : 'Failed to delete comment' })
     }
   },
 

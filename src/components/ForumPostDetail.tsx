@@ -12,7 +12,7 @@ interface ForumPostDetailProps {
 
 export default function ForumPostDetail({ postId, onBack }: ForumPostDetailProps) {
   const [newComment, setNewComment] = useState('')
-  const { posts, comments, fetchComments, createComment, likePost, unlikePost, deletePost, refreshPost, isLoading } = useForums()
+  const { posts, comments, fetchComments, createComment, deleteComment, likePost, unlikePost, deletePost, refreshPost, isLoading } = useForums()
   const user = useSession()?.user;
   
   const post = posts.find(p => p.id === postId)
@@ -58,6 +58,16 @@ export default function ForumPostDetail({ postId, onBack }: ForumPostDetailProps
       onBack()
     } catch (error) {
       console.error('Failed to delete post:', error)
+    }
+  }
+
+  const handleDeleteComment = async (commentId: string) => {
+    if (!confirm('Are you sure you want to delete this comment?')) return
+    
+    try {
+      await deleteComment(commentId, postId)
+    } catch (error) {
+      console.error('Failed to delete comment:', error)
     }
   }
 
@@ -179,9 +189,20 @@ export default function ForumPostDetail({ postId, onBack }: ForumPostDetailProps
                 <span className="text-sm font-semibold text-foreground">
                   {comment.authorName || 'Anonymous'}
                 </span>
-                <span className="text-xs text-muted">
-                  {new Date(comment.created_at).toLocaleDateString()}
-                </span>
+                <div className="flex items-center gap-2">
+                  <span className="text-xs text-muted">
+                    {new Date(comment.created_at).toLocaleDateString()}
+                  </span>
+                  {user && comment.author_id === user.id && (
+                    <button
+                      onClick={() => handleDeleteComment(comment.id)}
+                      className="text-accent-secondary hover:text-accent-secondary/80 transition-colors"
+                      title="Delete comment"
+                    >
+                      <IconTrash size={16} />
+                    </button>
+                  )}
+                </div>
               </div>
               <p className="text-muted whitespace-pre-wrap leading-relaxed">{comment.content}</p>
             </div>

@@ -31,6 +31,7 @@ export default function ProfilePage() {
   const [showFollowersModal, setShowFollowersModal] = useState(false)
   const [showFollowingModal, setShowFollowingModal] = useState(false)
   const [modalType, setModalType] = useState<'followers' | 'following'>('followers')
+  const [refreshTrigger, setRefreshTrigger] = useState(0)
 
   useEffect(() => {
     if (session === undefined) return; // Wait for session to load
@@ -40,7 +41,33 @@ export default function ProfilePage() {
     }
 
     fetchUserData()
-  }, [user, session])
+  }, [user, session, refreshTrigger])
+
+  // Listen for real-time updates to user profile
+  useEffect(() => {
+    if (!user) return
+
+    const channel = supabase
+      .channel('profile_changes')
+      .on(
+        'postgres_changes',
+        {
+          event: 'UPDATE',
+          schema: 'public',
+          table: 'users',
+          filter: `id=eq.${user.id}`
+        },
+        () => {
+          console.log('Profile updated, refreshing data...')
+          setRefreshTrigger(prev => prev + 1)
+        }
+      )
+      .subscribe()
+
+    return () => {
+      supabase.removeChannel(channel)
+    }
+  }, [user])
 
   // Note: Removed periodic refresh to avoid conflicts with manual refresh
 
@@ -153,6 +180,12 @@ export default function ProfilePage() {
       console.error('Error refreshing profile:', error)
       toast.error('Failed to refresh profile')
     }
+  }
+
+  const handleFollowChange = () => {
+    // Trigger a refresh when follow status changes
+    console.log('Follow status changed, refreshing profile...')
+    setRefreshTrigger(prev => prev + 1)
   }
 
   const startEditingUsername = () => {

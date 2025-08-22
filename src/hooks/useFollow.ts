@@ -99,6 +99,19 @@ export function useFollow(userId: string, currentUserId: string | null, onFollow
       if (onFollowChange) {
         onFollowChange()
       }
+
+      // Also refresh the follower count from the database to ensure accuracy
+      setTimeout(async () => {
+        const { data, error } = await supabase
+          .from('users')
+          .select('follower_count')
+          .eq('id', userId)
+          .single()
+
+        if (!error && data) {
+          setFollowerCount(data.follower_count || 0)
+        }
+      }, 100)
     } catch (error) {
       console.error('Error toggling follow:', error)
       toast.error('Failed to update follow status')
